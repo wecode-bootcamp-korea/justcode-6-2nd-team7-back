@@ -1,4 +1,5 @@
 -- migrate:up
+SET FOREIGN_KEY_CHECKS = 0;
 CREATE TABLE reservations (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
@@ -12,12 +13,15 @@ CREATE TABLE reservations (
   status_id INT NOT NULL,
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW(),
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
   FOREIGN KEY (user_id) REFERENCES users(id),
   FOREIGN KEY (accomodation_id) REFERENCES accomodations(id),
   FOREIGN KEY (room_id) REFERENCES accomodation_rooms(id),
   FOREIGN KEY (status_id) REFERENCES reservation_status(id)
-)
+);
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- migrate:down
+SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE reservations;
+SET FOREIGN_KEY_CHECKS = 1;

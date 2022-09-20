@@ -30,8 +30,13 @@ CREATE TABLE `accomodation_categories` (
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `accomodation_facilities` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  `accomodation_id` int DEFAULT NULL,
+  `facility_id` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `accomodation_id` (`accomodation_id`),
+  KEY `facility_id` (`facility_id`),
+  CONSTRAINT `accomodation_facilities_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`),
+  CONSTRAINT `accomodation_facilities_ibfk_2` FOREIGN KEY (`facility_id`) REFERENCES `facilities` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -95,7 +100,11 @@ CREATE TABLE `accomodation_rooms` (
   `stay_type_id` int NOT NULL,
   `original_price` int NOT NULL,
   `discount_rate` int NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `accomodation_id` (`accomodation_id`),
+  KEY `stay_type_id` (`stay_type_id`),
+  CONSTRAINT `accomodation_rooms_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`),
+  CONSTRAINT `accomodation_rooms_ibfk_2` FOREIGN KEY (`stay_type_id`) REFERENCES `stay_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -112,10 +121,13 @@ CREATE TABLE `accomodations` (
   `thumbnail_image` varchar(200) NOT NULL,
   `category_id` int DEFAULT NULL,
   `location_id` int DEFAULT NULL,
-  `facilities_id` int DEFAULT NULL,
-  `latitude` decimal(20,8) DEFAULT NULL,
-  `longitude` decimal(20,8) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `latitude` decimal(30,15) DEFAULT NULL,
+  `longitude` decimal(30,15) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `category_id` (`category_id`),
+  KEY `location_id` (`location_id`),
+  CONSTRAINT `accomodations_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `accomodation_categories` (`id`),
+  CONSTRAINT `accomodations_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `accomodation_locations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -148,6 +160,19 @@ CREATE TABLE `bed_types` (
   PRIMARY KEY (`id`),
   KEY `room_id` (`room_id`),
   CONSTRAINT `bed_types_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `accomodation_rooms` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `facilities`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `facilities` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -247,7 +272,15 @@ CREATE TABLE `reservations` (
   `status_id` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `accomodation_id` (`accomodation_id`),
+  KEY `room_id` (`room_id`),
+  KEY `status_id` (`status_id`),
+  CONSTRAINT `reservations_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`),
+  CONSTRAINT `reservations_ibfk_3` FOREIGN KEY (`room_id`) REFERENCES `accomodation_rooms` (`id`),
+  CONSTRAINT `reservations_ibfk_4` FOREIGN KEY (`status_id`) REFERENCES `reservation_status` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -264,7 +297,11 @@ CREATE TABLE `review_comments` (
   `user_id` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `review_id` (`review_id`),
+  CONSTRAINT `review_comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `review_comments_ibfk_2` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -278,7 +315,9 @@ CREATE TABLE `review_images` (
   `id` int NOT NULL AUTO_INCREMENT,
   `image` varchar(1000) DEFAULT NULL,
   `review_id` int NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `review_id` (`review_id`),
+  CONSTRAINT `review_images_ibfk_1` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -290,7 +329,7 @@ CREATE TABLE `review_images` (
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `reviews` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `users_id` int NOT NULL,
+  `user_id` int NOT NULL,
   `accomodation_id` int NOT NULL,
   `room_id` int NOT NULL,
   `reservation_id` int NOT NULL,
@@ -298,7 +337,15 @@ CREATE TABLE `reviews` (
   `rating` int NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `accomodation_id` (`accomodation_id`),
+  KEY `room_id` (`room_id`),
+  KEY `reservation_id` (`reservation_id`),
+  CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`),
+  CONSTRAINT `reviews_ibfk_3` FOREIGN KEY (`room_id`) REFERENCES `accomodation_rooms` (`id`),
+  CONSTRAINT `reviews_ibfk_4` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -440,5 +487,6 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220920030716'),
   ('20220920030748'),
   ('20220920030839'),
-  ('20220920030859');
+  ('20220920030859'),
+  ('20220920062143');
 UNLOCK TABLES;

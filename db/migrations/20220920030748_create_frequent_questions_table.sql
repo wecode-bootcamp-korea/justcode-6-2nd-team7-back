@@ -5,7 +5,7 @@ CREATE TABLE frequent_questions (
   content VARCHAR(50) NOT NULL,
   created_at TIMESTAMP DEFAULT NOW(),
   PRIMARY KEY(id)
-)
+);
 
 -- migrate:down
 DROP TABLE frequent_questions;
