@@ -121,16 +121,13 @@ CREATE TABLE `accomodations` (
   `thumbnail_image` varchar(200) NOT NULL,
   `category_id` int DEFAULT NULL,
   `location_id` int DEFAULT NULL,
-  `facilities_id` int DEFAULT NULL,
   `latitude` decimal(30,15) DEFAULT NULL,
   `longitude` decimal(30,15) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`),
   KEY `location_id` (`location_id`),
-  KEY `facilities_id` (`facilities_id`),
   CONSTRAINT `accomodations_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `accomodation_categories` (`id`),
-  CONSTRAINT `accomodations_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `accomodation_locations` (`id`),
-  CONSTRAINT `accomodations_ibfk_3` FOREIGN KEY (`facilities_id`) REFERENCES `accomodation_facilities` (`id`)
+  CONSTRAINT `accomodations_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `accomodation_locations` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

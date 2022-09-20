@@ -7,13 +7,11 @@ CREATE TABLE accomodations (
   thumbnail_image VARCHAR(200) NOT NULL,
   category_id INT,
   location_id INT,
-  facilities_id INT,
   latitude DECIMAL(30,15),
   longitude DECIMAL(30,15),
   PRIMARY KEY(id),
   FOREIGN KEY (category_id) REFERENCES accomodation_categories(id),
-  FOREIGN KEY (location_id) REFERENCES accomodation_locations(id),
-  FOREIGN KEY (facilities_id) REFERENCES accomodation_facilities(id)
+  FOREIGN KEY (location_id) REFERENCES accomodation_locations(id)
 );
 SET FOREIGN_KEY_CHECKS = 1;
 
