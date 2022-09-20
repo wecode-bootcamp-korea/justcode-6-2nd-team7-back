@@ -10,7 +10,9 @@ CREATE TABLE users (
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW(),
   PRIMARY KEY (id)
-)
+);
 
 -- migrate:down
+SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE users;
+SET FOREIGN_KEY_CHECKS = 1;

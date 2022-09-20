@@ -6,7 +6,7 @@ CREATE TABLE terms_and_services (
   effective_date DATE NOT NULL,
   created_at TIMESTAMP DEFAULT NOW(),
   PRIMARY KEY(id)
-)
+);
 
 -- migrate:down
 DROP TABLE terms_and_services;
