@@ -19,7 +19,7 @@ CREATE TABLE `accomodation_categories` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -30,14 +30,14 @@ CREATE TABLE `accomodation_categories` (
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `accomodation_facilities` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `accomodation_id` int DEFAULT NULL,
+  `accomodation_id` int NOT NULL,
   `facility_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `accomodation_id` (`accomodation_id`),
   KEY `facility_id` (`facility_id`),
   CONSTRAINT `accomodation_facilities_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`),
   CONSTRAINT `accomodation_facilities_ibfk_2` FOREIGN KEY (`facility_id`) REFERENCES `facilities` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -49,11 +49,13 @@ CREATE TABLE `accomodation_facilities` (
 CREATE TABLE `accomodation_images` (
   `id` int NOT NULL AUTO_INCREMENT,
   `accomodation_id` int NOT NULL,
-  `image` varchar(1000) NOT NULL,
+  `image_id` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `accomodation_id` (`accomodation_id`),
-  CONSTRAINT `accomodation_images_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `image_id` (`image_id`),
+  CONSTRAINT `accomodation_images_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`),
+  CONSTRAINT `accomodation_images_ibfk_2` FOREIGN KEY (`image_id`) REFERENCES `images` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +71,7 @@ CREATE TABLE `accomodation_informations` (
   PRIMARY KEY (`id`),
   KEY `accomodation_id` (`accomodation_id`),
   CONSTRAINT `accomodation_informations_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +84,7 @@ CREATE TABLE `accomodation_locations` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -105,7 +107,7 @@ CREATE TABLE `accomodation_rooms` (
   KEY `stay_type_id` (`stay_type_id`),
   CONSTRAINT `accomodation_rooms_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`),
   CONSTRAINT `accomodation_rooms_ibfk_2` FOREIGN KEY (`stay_type_id`) REFERENCES `stay_type` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -128,7 +130,7 @@ CREATE TABLE `accomodations` (
   KEY `location_id` (`location_id`),
   CONSTRAINT `accomodations_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `accomodation_categories` (`id`),
   CONSTRAINT `accomodations_ibfk_2` FOREIGN KEY (`location_id`) REFERENCES `accomodation_locations` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -140,11 +142,13 @@ CREATE TABLE `accomodations` (
 CREATE TABLE `availability_promotion_filters` (
   `id` int NOT NULL AUTO_INCREMENT,
   `accomodation_id` int NOT NULL,
-  `name` varchar(50) NOT NULL,
+  `reserve_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `accomodation_id` (`accomodation_id`),
-  CONSTRAINT `availability_promotion_filters_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `reserve_id` (`reserve_id`),
+  CONSTRAINT `availability_promotion_filters_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`),
+  CONSTRAINT `availability_promotion_filters_ibfk_2` FOREIGN KEY (`reserve_id`) REFERENCES `reserves` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,11 +160,8 @@ CREATE TABLE `availability_promotion_filters` (
 CREATE TABLE `bed_types` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
-  `room_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `room_id` (`room_id`),
-  CONSTRAINT `bed_types_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `accomodation_rooms` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -173,7 +174,7 @@ CREATE TABLE `facilities` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -192,6 +193,19 @@ CREATE TABLE `frequent_questions` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `grades`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `grades` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `hotel_cottage_camping_hanok_filters`
 --
 
@@ -200,11 +214,26 @@ CREATE TABLE `frequent_questions` (
 CREATE TABLE `hotel_cottage_camping_hanok_filters` (
   `id` int NOT NULL AUTO_INCREMENT,
   `accomodation_id` int NOT NULL,
-  `name` varchar(50) NOT NULL,
+  `grade_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `accomodation_id` (`accomodation_id`),
-  CONSTRAINT `hotel_cottage_camping_hanok_filters_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `grade_id` (`grade_id`),
+  CONSTRAINT `hotel_cottage_camping_hanok_filters_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`),
+  CONSTRAINT `hotel_cottage_camping_hanok_filters_ibfk_2` FOREIGN KEY (`grade_id`) REFERENCES `grades` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `images`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `images` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `image` varchar(1000) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -285,6 +314,19 @@ CREATE TABLE `reservations` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `reserves`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `reserves` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `review_comments`
 --
 
@@ -357,14 +399,33 @@ CREATE TABLE `reviews` (
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `room_availability_checks` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `date` datetime DEFAULT NULL,
+  `date` date DEFAULT NULL,
   `room_id` int NOT NULL,
   `quantity` int NOT NULL,
   `remain` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `room_id` (`room_id`),
   CONSTRAINT `room_availability_checks_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `accomodation_rooms` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `room_bed_numbers`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `room_bed_numbers` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `room_id` int NOT NULL,
+  `bed_type_id` int DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `room_id` (`room_id`),
+  KEY `bed_type_id` (`bed_type_id`),
+  CONSTRAINT `room_bed_numbers_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `accomodation_rooms` (`id`),
+  CONSTRAINT `room_bed_numbers_ibfk_2` FOREIGN KEY (`bed_type_id`) REFERENCES `bed_types` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -434,10 +495,10 @@ CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nickname` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
+  `password` varchar(200) NOT NULL,
   `phone_number` varchar(50) NOT NULL,
-  `point` int NOT NULL,
-  `coupon` int NOT NULL,
+  `point` int DEFAULT NULL,
+  `coupon` int DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -488,5 +549,16 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220920030748'),
   ('20220920030839'),
   ('20220920030859'),
-  ('20220920062143');
+  ('20220920062143'),
+  ('20220920070422'),
+  ('20220920073918'),
+  ('20220920074317'),
+  ('20220920074856'),
+  ('20220920082701'),
+  ('20220920083521'),
+  ('20220920084843'),
+  ('20220920095659'),
+  ('20220920112105'),
+  ('20220920121753'),
+  ('20220921080619');
 UNLOCK TABLES;

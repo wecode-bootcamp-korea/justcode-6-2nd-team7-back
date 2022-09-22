@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE stay_types (
+CREATE TABLE IF NOT EXISTS stay_types (
   id INT NOT NULL AUTO_INCREMENT,
   name varchar(50),
   PRIMARY KEY (id)

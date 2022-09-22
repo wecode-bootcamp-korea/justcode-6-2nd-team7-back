@@ -1,6 +1,6 @@
 -- migrate:up
 SET FOREIGN_KEY_CHECKS = 0;
-CREATE TABLE accomodations (
+CREATE TABLE IF NOT EXISTS accomodations (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
   address VARCHAR (200) NOT NULL,

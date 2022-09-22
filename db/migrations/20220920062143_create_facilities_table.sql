@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE facilities (
+CREATE TABLE IF NOT EXISTS facilities (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(50),
   PRIMARY KEY (id)
