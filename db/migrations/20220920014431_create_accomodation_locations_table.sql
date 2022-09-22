@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE accomodation_locations (
+CREATE TABLE IF NOT EXISTS accomodation_locations (
   id INT NOT NULL AUTO_INCREMENT,
   name varchar(50) NOT NULL,
   PRIMARY KEY(id)

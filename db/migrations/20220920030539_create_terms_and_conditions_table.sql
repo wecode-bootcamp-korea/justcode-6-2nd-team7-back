@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE terms_and_conditions (
+CREATE TABLE IF NOT EXISTS terms_and_conditions (
   id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(50) NOT NULL,
   content VARCHAR(50) NOT NULL,

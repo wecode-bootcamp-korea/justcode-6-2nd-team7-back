@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE reservation_status(
+CREATE TABLE IF NOT EXISTS reservation_status(
   id INT NOT NULL AUTO_INCREMENT,
   status VARCHAR(50),
   PRIMARY KEY (id)

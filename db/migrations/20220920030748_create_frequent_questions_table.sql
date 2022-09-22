@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE frequent_questions (
+CREATE TABLE IF NOT EXISTS frequent_questions (
   id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(50) NOT NULL,
   content VARCHAR(50) NOT NULL,

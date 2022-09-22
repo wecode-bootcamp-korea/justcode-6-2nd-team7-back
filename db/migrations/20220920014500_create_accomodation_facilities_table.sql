@@ -1,8 +1,9 @@
 -- migrate:up
 SET FOREIGN_KEY_CHECKS = 0;
-CREATE TABLE accomodation_facilities (
+
+CREATE TABLE IF NOT EXISTS accomodation_facilities (
   id INT NOT NULL AUTO_INCREMENT,
-  accomodation_id INT,
+  accomodation_id INT NOT NULL,
   facility_id INT,
   PRIMARY KEY(id),
   FOREIGN KEY (accomodation_id) REFERENCES accomodations(id),

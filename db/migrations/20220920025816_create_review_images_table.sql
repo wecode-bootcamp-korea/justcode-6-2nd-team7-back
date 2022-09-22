@@ -1,6 +1,7 @@
 -- migrate:up
 SET FOREIGN_KEY_CHECKS = 0;
-CREATE TABLE review_images (
+
+CREATE TABLE IF NOT EXISTS review_images (
   id INT NOT NULL AUTO_INCREMENT,
   image VARCHAR(1000),
   review_id INT NOT NULL,

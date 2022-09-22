@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE inquiries (
+CREATE TABLE IF NOT EXISTS inquiries (
   id INT NOT NULL AUTO_INCREMENT,
   category_type VARCHAR(50),
   inquiry_type VARCHAR(50),

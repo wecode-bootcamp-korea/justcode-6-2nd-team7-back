@@ -1,6 +1,7 @@
 -- migrate:up
 SET FOREIGN_KEY_CHECKS = 0;
-CREATE TABLE reservations (
+
+CREATE TABLE IF NOT EXISTS reservations (
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(50) NOT NULL,
   phone_number VARCHAR(50) NOT NULL,

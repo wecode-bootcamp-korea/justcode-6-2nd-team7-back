@@ -1,6 +1,7 @@
 -- migrate:up
 SET FOREIGN_KEY_CHECKS = 0;
-CREATE TABLE reviews (
+
+CREATE TABLE IF NOT EXISTS reviews (
   id INT NOT NULL AUTO_INCREMENT,
   user_id INT NOT NULL,
   accomodation_id INT NOT NULL,

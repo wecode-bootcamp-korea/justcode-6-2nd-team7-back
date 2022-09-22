@@ -1,6 +1,7 @@
 -- migrate:up
 SET FOREIGN_KEY_CHECKS = 0;
-CREATE TABLE review_comments (
+
+CREATE TABLE IF NOT EXISTS review_comments (
   id INT NOT NULL AUTO_INCREMENT,
   comment VARCHAR(200) NOT NULL,
   review_id INT NOT NULL,

@@ -1,5 +1,5 @@
 -- migrate:up
-CREATE TABLE notices (
+CREATE TABLE IF NOT EXISTS notices (
   id INT NOT NULL AUTO_INCREMENT,
   title VARCHAR(50) NOT NULL,
   content VARCHAR(50) NOT NULL,
