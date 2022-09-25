@@ -1,13 +1,11 @@
-const secret_key = require("../config/secret_sms");
-// const { signature } = require("../utils/makeSignature");
-
 const axios = require("axios");
 const Cache = require("memory-cache");
 const CryptoJS = require("crypto-js");
+const { response } = require("express");
+const serviceId = process.env.NCP_serviceID;
+const secretKey = process.env.NCP_secretKey;
+const accessKey = process.env.NCP_accessKey;
 
-const serviceId = secret_key.NCP_serviceID;
-const secretKey = secret_key.NCP_secretKey;
-const accessKey = secret_key.NCP_accessKey;
 const space = " ";
 const newLine = "\n";
 const method = "POST";
@@ -39,6 +37,30 @@ exports.send = async function (req, res) {
   //핸드폰번호, 인증번호 캐시에 저장
   Cache.put(phoneNumber, verifyCode.toString());
 
+  // const result = await axios.post(
+  //   `https://sens.apigw.ntruss.com/sms/v2/services/${serviceId}/messages`,
+  //   {
+  //     headers: {
+  //       "Content-Type": "application/json; charset=utf-8",
+  //       "x-ncp-iam-access-key": accessKey,
+  //       "x-ncp-apigw-timestamp": timestamp,
+  //       "x-ncp-apigw-signature-v2": signature,
+  //     },
+  //     data: {
+  //       type: "SMS",
+  //       contentType: "COMM",
+  //       countryCode: "82",
+  //       from: "01099169937",
+  //       content: `[저기어때] 인증번호 [${verifyCode}]를 입력해주세요.`,
+  //       messages: [
+  //         {
+  //           to: `${phoneNumber}`,
+  //         },
+  //       ],
+  //     },
+  //   }
+  // );
+
   //http 비동기 통신 라이브러리 (fetch api랑 비슷)
   axios({
     url: `https://sens.apigw.ntruss.com/sms/v2/services/${serviceId}/messages`,
@@ -63,14 +85,17 @@ exports.send = async function (req, res) {
       ],
     },
   })
-    .then(function (res) {
+    .then(function () {
       console.log(res.requestId); // 요청 아이디
-      console.log(res.requestTime); // 요청시간
-      console.log(res.statusCode); // 요청 상태 코드 (202=성공)
-      console.log(res.statusName); // 요청 상태명 (success=성공, fail=실패)
+      // console.log(res.requestTime); // 요청시간
+      // console.log(res.statusCode); // 요청 상태 코드 (202=성공)
+      // console.log(res.statusName); // 요청 상태명 (success=성공, fail=실패)
+      // res.send(response(baseResponse.SMS_SEND_SUCCESS));
       res.status(202).json({ message: "SMS_SEND_SUCCESS" });
     })
     .catch((err) => {
+      console.log(err);
+      // if (err.response.data.status == 202) {
       if (err.res == undefined) {
         res.status(202).json({ message: "SMS_SEND_SUCCESS" });
       } else res.status(404).json({ message: "SMS_SEND_FAILURE" });
@@ -87,7 +112,7 @@ exports.verify = async function (req, res) {
   } else if (CacheData !== verifyCode) {
     return res.status(400).json({ message: "FAILURE_SMS_AUTHENTICATION" });
   } else {
-    Cache.del(phoneNumber);
+    // Cache.del(phoneNumber);
     return res.status(200).json({ message: "SMS_VERIFY_SUCCESS" });
   }
 };
