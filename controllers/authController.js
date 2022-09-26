@@ -1,7 +1,8 @@
 const axios = require("axios");
 const Cache = require("memory-cache");
 const CryptoJS = require("crypto-js");
-const { response } = require("express");
+// const { response } = require("express");
+// const { Module } = require("module");
 const serviceId = process.env.NCP_serviceID;
 const secretKey = process.env.NCP_secretKey;
 const accessKey = process.env.NCP_accessKey;
@@ -25,16 +26,13 @@ const hash = hmac.finalize();
 const signature = hash.toString(CryptoJS.enc.Base64);
 
 // 핸드폰번호 인증
-exports.send = async function (req, res) {
+const send = async function (req, res) {
   const phoneNumber = req.body.phoneNumber;
 
-  // 입력된 핸드폰번호와 동일한 데이터가 입력되있다면 기존 데이터 삭제
   Cache.del(phoneNumber);
 
-  //인증번호 생성
   const verifyCode = Math.floor(Math.random() * (999999 - 100000)) + 100000;
 
-  //핸드폰번호, 인증번호 캐시에 저장
   Cache.put(phoneNumber, verifyCode.toString());
 
   // const result = await axios.post(
@@ -61,7 +59,6 @@ exports.send = async function (req, res) {
   //   }
   // );
 
-  //http 비동기 통신 라이브러리 (fetch api랑 비슷)
   axios({
     url: `https://sens.apigw.ntruss.com/sms/v2/services/${serviceId}/messages`,
     method: "POST",
@@ -87,10 +84,6 @@ exports.send = async function (req, res) {
   })
     .then(function () {
       console.log(res.requestId); // 요청 아이디
-      // console.log(res.requestTime); // 요청시간
-      // console.log(res.statusCode); // 요청 상태 코드 (202=성공)
-      // console.log(res.statusName); // 요청 상태명 (success=성공, fail=실패)
-      // res.send(response(baseResponse.SMS_SEND_SUCCESS));
       res.status(202).json({ message: "SMS_SEND_SUCCESS" });
     })
     .catch((err) => {
@@ -102,7 +95,7 @@ exports.send = async function (req, res) {
     });
 };
 
-exports.verify = async function (req, res) {
+const verify = async function (req, res) {
   const { phoneNumber, verifyCode } = req.body;
 
   const CacheData = Cache.get(phoneNumber);
@@ -112,7 +105,9 @@ exports.verify = async function (req, res) {
   } else if (CacheData !== verifyCode) {
     return res.status(400).json({ message: "FAILURE_SMS_AUTHENTICATION" });
   } else {
-    // Cache.del(phoneNumber);
+    Cache.del(phoneNumber);
     return res.status(200).json({ message: "SMS_VERIFY_SUCCESS" });
   }
 };
+
+module.exports = { send, verify };

@@ -1,13 +1,13 @@
 const userDao = require("../models/userDao");
+const authDao = require("../models/authDao");
 
-const qs = require("qs");
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const secret = process.env.TOKEN_SECRET;
 
 const userCreated = async (email, password, nickName, phoneNumber) => {
-  const userCheck = await userDao.userCheck(email);
+  const userCheck = await authDao.getUserByEmail(email);
   console.log("service1");
 
   if (!userCheck) {
@@ -27,7 +27,7 @@ const userCreated = async (email, password, nickName, phoneNumber) => {
 };
 
 const userLogin = async (email, password) => {
-  const user = await userDao.userLogin(email);
+  const user = await authDao.getUserByEmail(email);
 
   if (user) {
     const isPasswordCorrect = bcrypt.compareSync(password, user.password);
@@ -68,6 +68,7 @@ const kakaoToken = async (kakaoCode) => {
 };
 
 const kakaoLogin = async (kakaoToken) => {
+  console.log("axios로 보내는 토큰=", kakaoToken);
   const result = await axios.get("https://kapi.kakao.com/v2/user/me", {
     headers: {
       Authorization: `Bearer ${kakaoToken}`,
@@ -80,9 +81,9 @@ const kakaoLogin = async (kakaoToken) => {
   );
   const email = result.data.kakao_account.email;
   const kakaoId = result.data.id;
-  console.log("n1:", nickName);
-  console.log("n1:", email);
-  console.log("n1:", kakaoId);
+  console.log("카카오에서 가져온 닉네임 =", nickName);
+  console.log("카카오에서 가져온 이메일 =:", email);
+  console.log("카카오에서 가저온 userID =", kakaoId);
 
   if (!(nickName && email && kakaoId)) {
     const err = new Error("KEY_ERROR");
@@ -90,12 +91,52 @@ const kakaoLogin = async (kakaoToken) => {
     throw err;
   }
 
-  const userLoginByKakao = await userDao.userLoginByKakao(kakaoId);
+  const userLoginByKakao = await authDao.getUserByKakaoId(kakaoId);
   if (!userLoginByKakao) await userDao.signupByKakao(nickName, email, kakaoId);
 
-  const token = jwt.sign({ kakaoId }, secret);
-  console.log(token);
+  const user = await authDao.getUserByKakaoId(kakaoId);
+
+  const token = jwt.sign({ userId: user.id }, secret);
+  console.log("유저아이디랑 시크릿키 합쳐 만든 토큰:", token);
   return token;
 };
 
-module.exports = { userCreated, userLogin, kakaoToken, kakaoLogin };
+const getUserData = async (userId) => {
+  const getUserDataById = await userDao.getUserData(userId);
+  return getUserDataById;
+};
+
+const updateNickName = async (userId, nickName) => {
+  const updateUserNickName = await userDao.updateNickName(userId, nickName);
+  return updateUserNickName;
+};
+
+const updateName = async (userId, name) => {
+  const updateUserName = await userDao.updateName(userId, name);
+  return updateUserName;
+};
+
+const getUserPoint = async (userId) => {
+  const getUserPointById = await userDao.getUserPoint(userId);
+  return getUserPointById;
+};
+
+const updatePhoneNumber = async (userId, phoneNumber) => {
+  const updateUserPhoneNumber = await userDao.updatePhoneNumber(
+    userId,
+    phoneNumber
+  );
+  return updateUserPhoneNumber;
+};
+
+module.exports = {
+  userCreated,
+  userLogin,
+  kakaoToken,
+  kakaoLogin,
+  getUserData,
+  updateNickName,
+  updateName,
+  getUserPoint,
+  updatePhoneNumber,
+};

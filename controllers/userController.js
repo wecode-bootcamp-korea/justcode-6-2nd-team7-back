@@ -1,11 +1,12 @@
 const userService = require("../services/userService");
-const {
-  validateEmail,
-  validatePassword,
-  validateNumber,
-} = require("../utils/validation");
+// const {
+//   validateEmail,
+//   validatePassword,
+//   validateNumber,
+// } = require("../utils/validation");
 
 const userCreated = async (req, res) => {
+  console.log("test:", req.body);
   try {
     const { email, password, nickName, phoneNumber } = req.body;
 
@@ -81,12 +82,13 @@ const kakaoToken = async (req, res) => {
 };
 
 const kakaoLogin = async (req, res) => {
+  // req.connection.setTimeout(2 * 1000);
   try {
     const kakaoToken = req.get("Authorization");
-    console.log("t1", kakaoToken);
+    console.log("카카오토큰=", kakaoToken);
 
     const token = await userService.kakaoLogin(kakaoToken);
-
+    console.log("저기어떄토큰=", token);
     res.status(200).json({ message: "LOGIN_SUCCESS!", token: token });
   } catch (err) {
     console.log(err);
@@ -94,4 +96,74 @@ const kakaoLogin = async (req, res) => {
   }
 };
 
-module.exports = { userCreated, userLogin, kakaoToken, kakaoLogin };
+const getUserData = async (req, res) => {
+  try {
+    const userId = req.userId;
+    console.log(userId);
+    const user = await userService.getUserData(userId);
+    console.log(user);
+    return res.status(201).json({ data: user });
+  } catch (err) {
+    console.log(err);
+    res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+const updateNickName = async (req, res) => {
+  try {
+    const { nickName } = req.body;
+    const userId = req.userId;
+    await userService.updateNickName(userId, nickName);
+    return res.status(200).json({ message: "UPDATE_NICKNAME", data: nickName });
+  } catch (err) {
+    console.log(err);
+    res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+const updateName = async (req, res) => {
+  try {
+    const { name } = req.body;
+    const userId = req.userId;
+    await userService.updateName(userId, name);
+    return res.status(200).json({ message: "UPDATE_NAME", data: name });
+  } catch (err) {
+    console.log(err);
+    res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+const getUserPoint = async (req, res) => {
+  try {
+    const userId = req.userId;
+    const point = await userService.getUserPoint(userId);
+    return res.status(201).json({ data: point });
+  } catch (err) {
+    console.log(err);
+    res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+const updatePhoneNumber = async (req, res) => {
+  try {
+    const { phoneNumber } = req.body;
+    const userId = req.userId;
+    await userService.updatePhoneNumber(userId, phoneNumber);
+    return res.status(200).json({ message: "UPDATE_NAME", data: phoneNumber });
+  } catch (err) {
+    console.log(err);
+    res.status(err.statusCode || 500).json({ message: err.message });
+  }
+};
+
+module.exports = {
+  userCreated,
+  userLogin,
+  kakaoToken,
+  kakaoLogin,
+  getUserData,
+  updateNickName,
+  updateName,
+  getUserPoint,
+  updatePhoneNumber,
+};
