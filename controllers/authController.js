@@ -15,7 +15,8 @@ const verify = async function (req, res) {
   try {
     const { phoneNumber, verifyCode } = req.body;
 
-    const checkTheCode = await authService.verify(phoneNumber, verifyCode);
+    await authService.verify(phoneNumber, verifyCode);
+
     res.status(200).json({ message: "SMS_VERIFY_SUCCESS" });
   } catch (err) {
     console.log(err);

@@ -26,15 +26,4 @@ const validateNumber = (phoneNumber) => {
   }
 };
 
-//4자리 숫자로 암호화 진행
-const codeCreate = () => {
-  const code = math.floor(1000 + math.random() * 9000);
-  return code + " ";
-};
-
-module.exports = {
-  validateEmail,
-  validatePassword,
-  validateNumber,
-  codeCreate,
-};
+module.exports = { validateEmail, validatePassword, validateNumber };

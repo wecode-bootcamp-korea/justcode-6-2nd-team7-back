@@ -8,7 +8,6 @@ const secret = process.env.TOKEN_SECRET;
 
 const userCreated = async (email, password, nickName, phoneNumber) => {
   const userCheck = await authDao.getUserByEmail(email);
-  console.log("service1");
 
   if (!userCheck) {
     const salt = bcrypt.genSaltSync(10);
@@ -19,6 +18,7 @@ const userCreated = async (email, password, nickName, phoneNumber) => {
       nickName,
       phoneNumber
     );
+
     return user;
   } else {
     const user = false;
@@ -54,7 +54,6 @@ const kakaoToken = async (kakaoCode) => {
     }
   );
   const accessToken = result.data.access_token;
-  // console.log("kakaoToken", accessToken);
 
   if (!accessToken) {
     const err = new Error("ACCESS_TOKEN_ERROR");
@@ -65,7 +64,6 @@ const kakaoToken = async (kakaoCode) => {
 };
 
 const kakaoLogin = async (kakaoToken) => {
-  console.log("axios로 보내는 토큰=", kakaoToken);
   const result = await axios.get("https://kapi.kakao.com/v2/user/me", {
     headers: {
       Authorization: `Bearer ${kakaoToken}`,
@@ -94,12 +92,10 @@ const kakaoLogin = async (kakaoToken) => {
   const user = await authDao.getUserByKakaoId(kakaoId);
   const userId = user.id;
   const token = jwt.sign({ userId }, secret);
-  console.log("유저아이디랑 시크릿키 합쳐 만든 토큰:", token);
   const getUserByKakao = {
     token: token,
     userId: userId,
   };
-  console.log("배열한것", getUserByKakao);
   return getUserByKakao;
 };
 

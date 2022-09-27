@@ -6,7 +6,6 @@ const userService = require("../services/userService");
 // } = require("../utils/validation");
 
 const userCreated = async (req, res) => {
-  console.log("test:", req.body);
   try {
     const { email, password, nickName, phoneNumber } = req.body;
 
@@ -25,9 +24,9 @@ const userCreated = async (req, res) => {
       phoneNumber
     );
 
-    // if (!result) {
-    //   return res.status(400).json({ message: "EMAIL_ALREADY_USE" });
-    // }
+    if (!result) {
+      return res.status(400).json({ message: "EMAIL_ALREADY_USE" });
+    }
 
     res.status(201).json({ message: "SIGNUP_SUCCESS!" });
   } catch (err) {
@@ -50,7 +49,6 @@ const userLogin = async (req, res) => {
 
     const user = await userService.userLogin(email, password);
     const userId = user.user.id;
-    // console.log(userId);
 
     if (!user) {
       res.status(404).json({ message: "EMAIL_INCORRECT" });
@@ -73,6 +71,7 @@ const userLogin = async (req, res) => {
 const kakaoToken = async (req, res) => {
   try {
     const kakaoCode = req.get("code");
+
     const accessToken = await userService.kakaoToken(kakaoCode);
 
     res
@@ -85,15 +84,11 @@ const kakaoToken = async (req, res) => {
 };
 
 const kakaoLogin = async (req, res) => {
-  // req.connection.setTimeout(2 * 1000);
-  console.log(req.headers);
   try {
-    const kakaoToken = req.get("Authorization");
-    console.log("카카오토큰=", kakaoToken);
-    const kakaoToken2 = req.headers.kakaotoken;
-    console.log("카카오토큰2", kakaoToken2);
-    const getUserByKakao = await userService.kakaoLogin(kakaoToken2);
-    // console.log("저기어떄토큰=", token);
+    const kakaoToken = req.headers.kakaotoken;
+
+    const getUserByKakao = await userService.kakaoLogin(kakaoToken);
+
     res.status(200).json({
       message: "LOGIN_SUCCESS!",
       token: getUserByKakao.token,
@@ -108,9 +103,9 @@ const kakaoLogin = async (req, res) => {
 const getUserData = async (req, res) => {
   try {
     const userId = req.userId;
-    console.log(userId);
+
     const user = await userService.getUserData(userId);
-    console.log(user);
+
     return res.status(201).json({ data: user });
   } catch (err) {
     console.log(err);
@@ -122,7 +117,9 @@ const updateNickName = async (req, res) => {
   try {
     const { nickName } = req.body;
     const userId = req.userId;
+
     await userService.updateNickName(userId, nickName);
+
     return res.status(200).json({ message: "UPDATE_NICKNAME", data: nickName });
   } catch (err) {
     console.log(err);
@@ -134,7 +131,9 @@ const updateName = async (req, res) => {
   try {
     const { name } = req.body;
     const userId = req.userId;
+
     await userService.updateName(userId, name);
+
     return res.status(200).json({ message: "UPDATE_NAME", data: name });
   } catch (err) {
     console.log(err);
@@ -145,7 +144,9 @@ const updateName = async (req, res) => {
 const getUserPoint = async (req, res) => {
   try {
     const userId = req.userId;
+
     const point = await userService.getUserPoint(userId);
+
     return res.status(201).json({ data: point });
   } catch (err) {
     console.log(err);
@@ -157,7 +158,9 @@ const updatePhoneNumber = async (req, res) => {
   try {
     const { phoneNumber } = req.body;
     const userId = req.userId;
+
     await userService.updatePhoneNumber(userId, phoneNumber);
+
     return res.status(200).json({ message: "UPDATE_NAME", data: phoneNumber });
   } catch (err) {
     console.log(err);

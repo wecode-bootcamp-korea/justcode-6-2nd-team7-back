@@ -1,7 +1,6 @@
 const { myDataSource } = require("../utils/dataSource");
 
 const getReview = async (accomodationId) => {
-  console.log("검사1", accomodationId);
   try {
     const reviewList = await myDataSource.query(
       `

@@ -7,7 +7,7 @@ const userCreated = async (email, hashedPw, nickName, phoneNumber) => {
       INSERT INTO users(email, password, nickname, name, phone_number, kakao_id)
       VALUES (?, ?, ?, ?, ?, ?)
       `,
-      [email, hashedPw, nickName, "이름", phoneNumber, "0"]
+      [email, hashedPw, nickName, nickName, phoneNumber, "0"]
     );
     return user;
   } catch (err) {
@@ -19,15 +19,12 @@ const userCreated = async (email, hashedPw, nickName, phoneNumber) => {
 
 const signupByKakao = async (nickName, email, kakaoId) => {
   try {
-    console.log("저장할 닉네임:", nickName);
-    console.log("저장할 이메일:", email);
-    console.log("저장할 카카오유저아이디:", kakaoId);
     const user = await myDataSource.query(
       `
-      INSERT INTO users(email, password, nickname, name, phone_number, point, coupon, kakao_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO users(email, password, nickname, name, phone_number, kakao_id)
+      VALUES (?, ?, ?, ?, ?, ?)
       `,
-      [email, "0000", nickName, nickName, null, "0", "0", kakaoId]
+      [email, "0000", nickName, nickName, null, kakaoId]
     );
     return user;
   } catch (err) {
