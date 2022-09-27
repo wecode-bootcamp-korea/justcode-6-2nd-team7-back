@@ -9,8 +9,8 @@ const validationToken = async (req, res, next) => {
     console.log("들어온 body data:", req.body);
     console.log("headers에서 추출한 토큰값:", accessToken);
 
-    // const accessToken = headers.split(" ")[1];
-    const decode = await jwt.verify(accessToken, secret);
+    const accessToken2 = accessToken.split(" ")[1];
+    const decode = await jwt.verify(accessToken2, secret);
     const userId = decode.userId;
     const user = await authDao.getUserById(userId);
     if (!user) {

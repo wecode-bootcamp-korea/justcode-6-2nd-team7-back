@@ -49,6 +49,8 @@ const userLogin = async (req, res) => {
     // validatePassword(password);
 
     const user = await userService.userLogin(email, password);
+    const userId = user.user.id;
+    // console.log(userId);
 
     if (!user) {
       res.status(404).json({ message: "EMAIL_INCORRECT" });
@@ -59,7 +61,9 @@ const userLogin = async (req, res) => {
       return;
     }
 
-    res.status(200).json({ message: "LOGIN_SUCCESS!", token: user.token });
+    res
+      .status(200)
+      .json({ message: "LOGIN_SUCCESS!", token: user.token, userId: userId });
   } catch (err) {
     console.log(err);
     res.status(err.statusCode || 500).json({ message: err.message });
@@ -69,7 +73,6 @@ const userLogin = async (req, res) => {
 const kakaoToken = async (req, res) => {
   try {
     const kakaoCode = req.get("code");
-    console.log(kakaoCode);
     const accessToken = await userService.kakaoToken(kakaoCode);
 
     res
@@ -83,13 +86,19 @@ const kakaoToken = async (req, res) => {
 
 const kakaoLogin = async (req, res) => {
   // req.connection.setTimeout(2 * 1000);
+  console.log(req.headers);
   try {
     const kakaoToken = req.get("Authorization");
     console.log("카카오토큰=", kakaoToken);
-
-    const token = await userService.kakaoLogin(kakaoToken);
-    console.log("저기어떄토큰=", token);
-    res.status(200).json({ message: "LOGIN_SUCCESS!", token: token });
+    const kakaoToken2 = req.headers.kakaotoken;
+    console.log("카카오토큰2", kakaoToken2);
+    const getUserByKakao = await userService.kakaoLogin(kakaoToken2);
+    // console.log("저기어떄토큰=", token);
+    res.status(200).json({
+      message: "LOGIN_SUCCESS!",
+      token: getUserByKakao.token,
+      userId: getUserByKakao.userId,
+    });
   } catch (err) {
     console.log(err);
     res.status(err.statusCode || 500).json({ message: err.message });

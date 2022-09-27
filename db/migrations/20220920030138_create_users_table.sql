@@ -6,8 +6,6 @@ CREATE TABLE IF NOT EXISTS users (
   nickname VARCHAR(50)  NULL,
   name VARCHAR(50)  NULL,
   phone_number VARCHAR(50) NULL,
-  point INT NULL,
-  coupon INT NULL,
   kakao_id VARCHAR(50) NULL,
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW(),

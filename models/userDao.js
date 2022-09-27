@@ -4,19 +4,10 @@ const userCreated = async (email, hashedPw, nickName, phoneNumber) => {
   try {
     const user = await myDataSource.query(
       `
-      INSERT INTO users(email, password, nickname, name, phone_number, point, coupon, kakao_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO users(email, password, nickname, name, phone_number, kakao_id)
+      VALUES (?, ?, ?, ?, ?, ?)
       `,
-      [
-        email,
-        hashedPw,
-        nickName,
-        "Margot Elise Robbie",
-        phoneNumber,
-        "0",
-        "0",
-        "0",
-      ]
+      [email, hashedPw, nickName, "이름", phoneNumber, "0"]
     );
     return user;
   } catch (err) {

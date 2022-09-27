@@ -44,8 +44,6 @@ const userLogin = async (email, password) => {
 const kakaoToken = async (kakaoCode) => {
   const clientId = process.env.REST_API;
   const redirectUri = process.env.REDIRECT_URI;
-  console.log("te1", clientId);
-  console.log("te1", redirectUri);
 
   const result = await axios.post(
     `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${clientId}&redirect_uri=${redirectUri}&code=${kakaoCode}`,
@@ -55,9 +53,8 @@ const kakaoToken = async (kakaoCode) => {
       },
     }
   );
-  console.log("test", result);
   const accessToken = result.data.access_token;
-  console.log("kakaoToken", accessToken);
+  // console.log("kakaoToken", accessToken);
 
   if (!accessToken) {
     const err = new Error("ACCESS_TOKEN_ERROR");
@@ -95,10 +92,15 @@ const kakaoLogin = async (kakaoToken) => {
   if (!userLoginByKakao) await userDao.signupByKakao(nickName, email, kakaoId);
 
   const user = await authDao.getUserByKakaoId(kakaoId);
-
-  const token = jwt.sign({ userId: user.id }, secret);
+  const userId = user.id;
+  const token = jwt.sign({ userId }, secret);
   console.log("유저아이디랑 시크릿키 합쳐 만든 토큰:", token);
-  return token;
+  const getUserByKakao = {
+    token: token,
+    userId: userId,
+  };
+  console.log("배열한것", getUserByKakao);
+  return getUserByKakao;
 };
 
 const getUserData = async (userId) => {

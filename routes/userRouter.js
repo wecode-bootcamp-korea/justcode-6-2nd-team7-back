@@ -7,7 +7,7 @@ const auth = require("../middlewares/auth");
 const router = express.Router();
 
 // 문자인증 ( naver sens를 통한 ) 전송 API
-router.post("/send", authController.send);
+router.post("/send", authController.smsSend);
 
 // 문자인증 검증 API
 router.post("/validation", authController.verify);

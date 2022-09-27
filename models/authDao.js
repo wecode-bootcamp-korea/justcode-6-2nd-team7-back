@@ -39,7 +39,7 @@ const getUserByKakaoId = async (kakaoId) => {
       SELECT *
       FROM users
       WHERE kakao_id = '${kakaoId}'
-      `
+    `
   );
   return user;
 };
