@@ -273,6 +273,8 @@ CREATE TABLE `notices` (
 
 --
 -- Table structure for table `pictures`
+
+-- Table structure for table `points`
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -282,6 +284,16 @@ CREATE TABLE `pictures` (
   `pictures` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+CREATE TABLE `points` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `point` int NOT NULL,
+  `history` varchar(200) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `points_user_id_fk` (`user_id`),
+  CONSTRAINT `points_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -363,22 +375,6 @@ CREATE TABLE `review_comments` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `review_images`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `review_images` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `image` varchar(1000) DEFAULT NULL,
-  `review_id` int NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `review_id` (`review_id`),
-  CONSTRAINT `review_images_ibfk_1` FOREIGN KEY (`review_id`) REFERENCES `reviews` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `reviews`
 --
 
@@ -389,9 +385,12 @@ CREATE TABLE `reviews` (
   `user_id` int NOT NULL,
   `accomodation_id` int NOT NULL,
   `room_id` int NOT NULL,
-  `reservation_id` int NOT NULL,
+  `reservation_id` int DEFAULT NULL,
   `review` varchar(1000) NOT NULL,
   `rating` decimal(3,1) NOT NULL,
+
+  `rating` int NOT NULL,
+  `img` varchar(1000) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -404,6 +403,8 @@ CREATE TABLE `reviews` (
   CONSTRAINT `reviews_ibfk_3` FOREIGN KEY (`room_id`) REFERENCES `accomodation_rooms` (`id`),
   CONSTRAINT `reviews_ibfk_4` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -527,16 +528,16 @@ CREATE TABLE `terms_and_services` (
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nickname` varchar(50) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `password` varchar(200) NOT NULL,
-  `phone_number` varchar(50) NOT NULL,
-  `point` int DEFAULT NULL,
-  `coupon` int DEFAULT NULL,
+  `password` varchar(200) DEFAULT NULL,
+  `nickname` varchar(50) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
+  `phone_number` varchar(50) DEFAULT NULL,
+  `kakao_id` varchar(50) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -575,7 +576,6 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220920024549'),
   ('20220920025055'),
   ('20220920025339'),
-  ('20220920025816'),
   ('20220920025958'),
   ('20220920030138'),
   ('20220920030539'),
@@ -600,4 +600,9 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220924065717'),
   ('20220924070044'),
   ('20220928063652');
+
+  ('20220925192537'),
+  ('20220927164446'),
+  ('20220927174239'),
+  ('20220927180825');
 UNLOCK TABLES;
