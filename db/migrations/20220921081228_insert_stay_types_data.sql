@@ -3,7 +3,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 INSERT INTO stay_types (name)
 VALUES 
-("대실")
+("대실"),
 ("숙박")
 ;
 
