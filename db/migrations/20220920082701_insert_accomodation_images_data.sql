@@ -4,6 +4,10 @@ SET FOREIGN_KEY_CHECKS = 0;
 INSERT INTO accomodation_images (accomodation_id, image_id)
 VALUES 
 (1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
 (2, 1),
 (3, 1),
 (4, 1),

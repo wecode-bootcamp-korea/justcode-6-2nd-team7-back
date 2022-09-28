@@ -6,10 +6,12 @@ CREATE TABLE IF NOT EXISTS reviews (
   user_id INT NOT NULL,
   accomodation_id INT NOT NULL,
   room_id INT NOT NULL,
-  reservation_id INT NULL,
-  comment varchar(1000) NOT NULL,
-  rating INT NOT NULL,
+
+  reservation_id INT NOT NULL,
+  review varchar(1000) NOT NULL,
+  rating decimal(3,1) NOT NULL,
   img varchar(1000) NULL,
+
   created_at TIMESTAMP DEFAULT NOW(),
   updated_at TIMESTAMP DEFAULT NOW() ON UPDATE NOW(),
   PRIMARY KEY (id),

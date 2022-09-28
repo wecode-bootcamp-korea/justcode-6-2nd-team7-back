@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS accomodation_rooms (
   thumbnail_image VARCHAR(200) NOT NULL,
   capacity INT NOT NULL,
   stay_type_id INT NOT NULL,
-  original_price INT NOT NULL,
-  discount_rate INT NOT NULL,
+  original_price INT,
+  sale_price INT,
   PRIMARY KEY(id),
   FOREIGN KEY(accomodation_id) REFERENCES accomodations(id),
   FOREIGN KEY (stay_type_id) REFERENCES stay_type(id)

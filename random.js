@@ -1,10 +1,4 @@
--- migrate:up
-SET FOREIGN_KEY_CHECKS = 0;
-
-INSERT INTO accomodations 
-(name, address, thumbnail_image, category_id, location_id, latitude, longitude, ceo)
-VALUES 
-("명동 뉴서울호텔", "서울 중구 태평로1가 29-1", "https://images.unsplash.com/photo-1600435335786-d74d2bb6de37?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2360&q=80", 1, 1, 	37.568122, 126.978135, "제공 객실이 사진과 조금 다르거나 업그레이드 되어질 수도 있습니다."),
+"명동 뉴서울호텔", "서울 중구 태평로1가 29-1", "https://images.unsplash.com/photo-1600435335786-d74d2bb6de37?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2360&q=80", 1, 1, 	37.568122, 126.978135, "제공 객실이 사진과 조금 다르거나 업그레이드 되어질 수도 있습니다."),
 ("명동 밀리오레호텔", "서울 중구 충무로1가 24-1", "https://images.unsplash.com/photo-1601565415267-724db0e9fbdf?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2360&q=80", 1, 1, 37.560518, 126.983916, "03년생 생일지나야 투숙 가능생일이 지나지 않았을 경우 동성만 이용 가능하지시만, 부모님 동의서가 필요, 동의서는 호텔에 문의하면 보내드립니다. 또한 보여지는 객실 사진과 다른 구조의 객실로 배정 받을 수 있는 점 참고하여 예약해주시기 바랍니다."),
 ("호텔 크레센도 서울", "서울 강남구 삼성동 113-5", "https://images.unsplash.com/photo-1590447158019-883d8d5f8bc7?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2532&q=80", 2, 1, 37.510806, 127.046905, "컴팩트하고 아늑한 객실과 최고급 구스다운 침구, 매트리스(시몬스) 제공 9호선, 분당선 ‘선정릉역’ 3번출구 도보 3분 거리 위치 / 코엑스, 봉은사 도보 이동 가능 24시간 피트니스&셀프 세탁실 무료 제공"),
 ("AC 호텔 바이 메리어트 서울 강남", "서울 강남구 역삼동 642", "https://images.unsplash.com/photo-1595161695996-f746349f4945?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1614&q=80", 2, 1, 37.501223, 127.035488, "대중교통 이용이 편리하며 서울 도심 속에 있어 다양한 편의 시설과 아름다운 시티뷰를 즐길 수 있는 호텔입니다"),
@@ -66,14 +60,4 @@ VALUES
 ("캠프게이트 청평", "경기 가평군 청평면 고성리 578-19", "https://images.unsplash.com/photo-1593534560771-4f0fc0cabd94?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80", 5, 1, 37.712442, 127.487449, "대중교통 이용이 편리하며 서울 도심 속에 있어 다양한 편의 시설과 아름다운 시티뷰를 즐길 수 있는 호텔입니다"),
 ("은평 한옥마을 은화당", "서울특별시 은평구 진관동 211-3 은평한옥마을", "https://images.unsplash.com/photo-1628579064393-28cd8ebec686?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3254&q=80", 6, 1, 37.643017, 126.939892, "대중교통 이용이 편리하며 서울 도심 속에 있어 다양한 편의 시설과 아름다운 시티뷰를 즐길 수 있는 호텔입니다"),
 ("종로 한옥 누하당", "서울 종로구 누하동 74", "https://images.unsplash.com/photo-1591452249377-f12a034106de?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=3262&q=80", 6, 1, 37.580338, 126.968133, "대중교통 이용이 편리하며 서울 도심 속에 있어 다양한 편의 시설과 아름다운 시티뷰를 즐길 수 있는 호텔입니다"),
-("북촌 한옥 인우 하우스", "서울 종로구 계동 2-63 인우하우스", "https://images.unsplash.com/photo-1618237600880-fb9d72e98393?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80", 6, 1, 37.582621, 126.987095, "대중교통 이용이 편리하며 서울 도심 속에 있어 다양한 편의 시설과 아름다운 시티뷰를 즐길 수 있는 호텔입니다")
-;
-
-SET FOREIGN_KEY_CHECKS = 1;
-
--- migrate:down
-SET FOREIGN_KEY_CHECKS = 0;
-
-TRUNCATE accomodations;
-
-SET FOREIGN_KEY_CHECKS = 1;
+("북촌 한옥 인우 하우스", "서울 

@@ -1,18 +1,18 @@
 -- migrate:up
 SET FOREIGN_KEY_CHECKS = 0;
 
-INSERT INTO accomodation_rooms (accomodation_id, name, thumbnail_image, capacity, stay_type_id, original_price, discount_rate)
+INSERT INTO accomodation_rooms (accomodation_id, name, thumbnail_image, capacity, stay_type_id, original_price, sale_price)
 VALUES 
-(1, "트리플", "https://unsplash.com/photos/rlwE8f8anOc", 4, 1, 25000, 0),
-(1, "트리플", "https://unsplash.com/photos/rlwE8f8anOc", 4, 2, 95000, 0),
-(1, "인사이드 더블(창문X)", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 25000, 0),
-(1, "인사이드 더블(창문X)", "https://unsplash.com/photos/rlwE8f8anOc", 2, 2, 50000, 0),
-(2, "비즈니스더블 (창문없음)", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 25000, 0),
-(2, "비즈니스더블 (창문없음)", "https://unsplash.com/photos/rlwE8f8anOc", 2, 2, 50000, 0),
-(2, "스탠다드 트윈", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 30000, 0),
-(2, "스탠다드 트윈", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 55000, 0),
-(3, "프티 트윈", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 105000, 0),
-(3, "시그니처 킹", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 204000, 0),
+(1, "트리플", "https://unsplash.com/photos/rlwE8f8anOc", 4, 1, 25000, 10000),
+(1, "트리플", "https://unsplash.com/photos/rlwE8f8anOc", 4, 2, 95000, 30000),
+(1, "인사이드 더블(창문X)", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 25000, 10000),
+(1, "인사이드 더블(창문X)", "https://unsplash.com/photos/rlwE8f8anOc", 2, 2, 50000, 25000),
+(2, "비즈니스더블 (창문없음)", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 25000, 14000),
+(2, "비즈니스더블 (창문없음)", "https://unsplash.com/photos/rlwE8f8anOc", 2, 2, 50000, 32000),
+(2, "스탠다드 트윈", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 30000, 15000),
+(2, "스탠다드 트윈", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 55000, 10000),
+(3, "프티 트윈", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 105000, 10000),
+(3, "시그니처 킹", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 204000, 150000),
 (4, "디럭스 더블", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 385000, 0),
 (4, "[조식 2인] 디럭스 더블", "https://unsplash.com/photos/rlwE8f8anOc", 2, 1, 440000, 0),
 (5, "풀빌라 A", "https://unsplash.com/photos/rlwE8f8anOc", 4, 1, 199000, 0),
