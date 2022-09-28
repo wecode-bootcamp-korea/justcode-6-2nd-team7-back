@@ -1,5 +1,6 @@
 const { json } = require("body-parser");
 const accomodationService = require("../services/accomodationService");
+const reviewService = require("../services/reviewService");
 
 const accomodationCategory = async (req, res) => {
   console.log("accomodationCategory controller");
@@ -94,6 +95,7 @@ const detailPage = async (req, res) => {
     let accomodationData = await accomodationService.accomodationData(acno);
     let hotelImg = await accomodationService.hotelImg(acno);
     let roomData = await accomodationService.roomData(acno);
+    let getReview = await reviewService.getReview(acno);
 
     for (i = 0; i < roomData.length; i++) {
       let id = roomData[i].id;
@@ -104,6 +106,7 @@ const detailPage = async (req, res) => {
     for (i = 0; i < accomodationData.length; i++) {
       accomodationData[i].roomImg = hotelImg;
       accomodationData[i].roomTypes = roomData;
+      accomodationData[i].comment = getReview;
     }
 
     res.status(200).json({ roomTypeData: accomodationData });

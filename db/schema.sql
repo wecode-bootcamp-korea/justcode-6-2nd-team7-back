@@ -107,7 +107,7 @@ CREATE TABLE `accomodation_rooms` (
   KEY `stay_type_id` (`stay_type_id`),
   CONSTRAINT `accomodation_rooms_ibfk_1` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`),
   CONSTRAINT `accomodation_rooms_ibfk_2` FOREIGN KEY (`stay_type_id`) REFERENCES `stay_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -273,8 +273,6 @@ CREATE TABLE `notices` (
 
 --
 -- Table structure for table `pictures`
-
--- Table structure for table `points`
 --
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -283,7 +281,15 @@ CREATE TABLE `pictures` (
   `id` int NOT NULL AUTO_INCREMENT,
   `pictures` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=291 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `points`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `points` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int NOT NULL,
@@ -293,7 +299,7 @@ CREATE TABLE `points` (
   PRIMARY KEY (`id`),
   KEY `points_user_id_fk` (`user_id`),
   CONSTRAINT `points_user_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -337,7 +343,7 @@ CREATE TABLE `reservations` (
   CONSTRAINT `reservations_ibfk_2` FOREIGN KEY (`accomodation_id`) REFERENCES `accomodations` (`id`),
   CONSTRAINT `reservations_ibfk_3` FOREIGN KEY (`room_id`) REFERENCES `accomodation_rooms` (`id`),
   CONSTRAINT `reservations_ibfk_4` FOREIGN KEY (`status_id`) REFERENCES `reservation_status` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -385,11 +391,9 @@ CREATE TABLE `reviews` (
   `user_id` int NOT NULL,
   `accomodation_id` int NOT NULL,
   `room_id` int NOT NULL,
-  `reservation_id` int DEFAULT NULL,
-  `review` varchar(1000) NOT NULL,
+  `reservation_id` int NOT NULL,
+  `comment` varchar(1000) NOT NULL,
   `rating` decimal(3,1) NOT NULL,
-
-  `rating` int NOT NULL,
   `img` varchar(1000) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -403,8 +407,6 @@ CREATE TABLE `reviews` (
   CONSTRAINT `reviews_ibfk_3` FOREIGN KEY (`room_id`) REFERENCES `accomodation_rooms` (`id`),
   CONSTRAINT `reviews_ibfk_4` FOREIGN KEY (`reservation_id`) REFERENCES `reservations` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -460,7 +462,7 @@ CREATE TABLE `room_pictures` (
   KEY `picture_id` (`picture_id`),
   CONSTRAINT `room_pictures_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `accomodation_rooms` (`id`),
   CONSTRAINT `room_pictures_ibfk_2` FOREIGN KEY (`picture_id`) REFERENCES `pictures` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=625 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -599,10 +601,9 @@ INSERT INTO `schema_migrations` (version) VALUES
   ('20220924012535'),
   ('20220924065717'),
   ('20220924070044'),
-  ('20220928063652');
-
   ('20220925192537'),
   ('20220927164446'),
   ('20220927174239'),
-  ('20220927180825');
+  ('20220928063652'),
+  ('20220928081507');
 UNLOCK TABLES;

@@ -4,6 +4,7 @@ const reservationStatus = async (id) => {
   const reservationStatus = await myDataSource.query(
     `
     SELECT
+      reservations.id as reservation_id,
       accomodations.id as hotel_id,
       accomodations.name as name,
       accomodations.thumbnail_image as img,
@@ -26,12 +27,20 @@ const reservationStatus = async (id) => {
 };
 
 const deleteReservation = async (id) => {
+  const deleteReview = await myDataSource.query(
+    `
+    DELETE FROM reviews WHERE reviews.reservation_id = ?
+    `,
+    [id]
+  );
   const deleteReservation = await myDataSource.query(
     `
+
     DELETE FROM reservations WHERE reservations.id = ?
     `,
     [id]
   );
+  return deleteReview, deleteReservation;
 };
 
 module.exports = {
