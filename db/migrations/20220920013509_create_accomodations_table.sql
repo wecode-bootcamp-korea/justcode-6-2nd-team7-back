@@ -7,8 +7,10 @@ CREATE TABLE IF NOT EXISTS accomodations (
   thumbnail_image VARCHAR(200) NOT NULL,
   category_id INT,
   location_id INT,
-  latitude DECIMAL(30,15),
-  longitude DECIMAL(30,15),
+  latitude DECIMAL(30,6),
+  longitude DECIMAL(30,6),
+  ceo VARCHAR(1000),
+  event VARCHAR(1000),
   PRIMARY KEY(id),
   FOREIGN KEY (category_id) REFERENCES accomodation_categories(id),
   FOREIGN KEY (location_id) REFERENCES accomodation_locations(id)

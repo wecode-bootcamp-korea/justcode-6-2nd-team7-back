@@ -1,17 +1,18 @@
 -- migrate:up
 SET FOREIGN_KEY_CHECKS = 0;
 
-INSERT INTO stay_types (name)
+INSERT INTO room_availability_checks (date, room_id, quantity, remain, availability)
 VALUES 
-("대실"),
-("숙박")
+
 ;
+
 
 SET FOREIGN_KEY_CHECKS = 1;
 
 -- migrate:down
 SET FOREIGN_KEY_CHECKS = 0;
 
-TRUNCATE stay_types;
+TRUNCATE room_availability_checks;
+
 
 SET FOREIGN_KEY_CHECKS = 1;
