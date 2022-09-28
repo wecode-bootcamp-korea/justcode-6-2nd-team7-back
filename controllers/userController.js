@@ -85,8 +85,8 @@ const kakaoToken = async (req, res) => {
 
 const kakaoLogin = async (req, res) => {
   try {
-    const kakaoToken = req.headers.kakaotoken;
-
+    const kakaoToken = req.headers.authorization;
+    // console.log("카카오토큰", kakaoToken);
     const getUserByKakao = await userService.kakaoLogin(kakaoToken);
 
     res.status(200).json({
