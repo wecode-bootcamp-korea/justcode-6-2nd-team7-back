@@ -1,7 +1,7 @@
 const reservationService = require("../services/reservationService");
 
 const reservationStatus = async (req, res) => {
-  const { id } = req.body;
+  const { id } = req.headers;
 
   if (!id) {
     res.status(400).json({ message: "아이디 안보내주셨어요,,," });

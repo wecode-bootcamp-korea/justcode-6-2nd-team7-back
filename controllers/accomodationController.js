@@ -5,13 +5,13 @@ const accomodationCategory = async (req, res) => {
   console.log("accomodationCategory controller");
   const category_id = req.params;
   const {
-    sort,
     accno,
     reserve,
     grade,
     facility,
     persons,
     bed_type,
+    sort,
     date1,
     date2,
   } = req.query;
@@ -24,13 +24,13 @@ const accomodationCategory = async (req, res) => {
   try {
     const accomodationCategory = await accomodationService.accomodationCategory(
       id,
-      sort,
       accno,
       reserve,
       grade,
       facility,
       persons,
       bed_type,
+      sort,
       date1,
       date2
     );

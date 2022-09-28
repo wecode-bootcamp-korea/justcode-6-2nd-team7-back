@@ -2,13 +2,13 @@ const accomodationDao = require("../models/accomodationDao.js");
 
 const accomodationCategory = async (
   id,
-  sort,
   accno,
   reserve,
   grade,
   facility,
   persons,
   bed_type,
+  sort,
   date1,
   date2
 ) => {
@@ -106,6 +106,7 @@ const accomodationCategory = async (
     facility,
     persons,
     bed_type,
+    sort,
     date1,
     date2
   );
