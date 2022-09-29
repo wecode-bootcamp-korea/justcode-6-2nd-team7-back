@@ -5,17 +5,7 @@ const reviewService = require("../services/reviewService");
 const accomodationCategory = async (req, res) => {
   console.log("accomodationCategory controller");
   const category_id = req.params;
-  const {
-    accno,
-    reserve,
-    grade,
-    facility,
-    persons,
-    bed_type,
-    sort,
-    date1,
-    date2,
-  } = req.query;
+  const { reserve, grade, facility, persons, bed_type, sort } = req.query;
   const id = category_id.id;
   console.log(id);
   if (!id) {
@@ -25,15 +15,12 @@ const accomodationCategory = async (req, res) => {
   try {
     const accomodationCategory = await accomodationService.accomodationCategory(
       id,
-      accno,
       reserve,
       grade,
       facility,
       persons,
       bed_type,
-      sort,
-      date1,
-      date2
+      sort
     );
     res.send(accomodationCategory);
   } catch (err) {

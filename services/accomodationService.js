@@ -2,15 +2,12 @@ const accomodationDao = require("../models/accomodationDao.js");
 
 const accomodationCategory = async (
   id,
-  accno,
   reserve,
   grade,
   facility,
   persons,
   bed_type,
-  sort,
-  date1,
-  date2
+  sort
 ) => {
   console.log("accomodationCategory Service");
   if (id === "motel") {
@@ -35,13 +32,6 @@ const accomodationCategory = async (
     }
   } else {
     sort = null;
-  }
-  if (accno != undefined) {
-    if (typeof accno == "string") {
-      accno = [accno];
-    }
-  } else {
-    accno = "null";
   }
 
   if (reserve != undefined) {
@@ -83,32 +73,15 @@ const accomodationCategory = async (
   } else {
     bed_type = "null";
   }
-  if (date1 != undefined) {
-    if (typeof date1 == "string") {
-      date1 = [date1];
-    }
-  } else {
-    date1 = "null";
-  }
 
-  if (date2 != undefined) {
-    if (typeof date2 == "string") {
-      date2 = [date2];
-    }
-  } else {
-    date2 = "null";
-  }
   const accomodationCategory = await accomodationDao.accomodationCategory(
     id,
-    accno,
     reserve,
     grade,
     facility,
     persons,
     bed_type,
-    sort,
-    date1,
-    date2
+    sort
   );
   return accomodationCategory;
 };
