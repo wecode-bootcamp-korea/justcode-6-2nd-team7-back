@@ -17,6 +17,23 @@ const userCreated = async (email, hashedPw, nickName, phoneNumber) => {
   }
 };
 
+const pointCreated = async (userId) => {
+  try {
+    const point = await myDataSource.query(
+      `
+      INSERT INTO points(user_id, point, history)
+      VALUES (?, ?, ?)
+      `,
+      [userId, "5000", "가입 기념"]
+    );
+    return point;
+  } catch (err) {
+    const error = new Error("INVALID_DATA_INPUT");
+    error.statusCode = "500";
+    throw error;
+  }
+};
+
 const signupByKakao = async (nickName, email, kakaoId) => {
   try {
     const user = await myDataSource.query(
@@ -136,4 +153,5 @@ module.exports = {
   updateName,
   getUserPoint,
   updatePhoneNumber,
+  pointCreated,
 };

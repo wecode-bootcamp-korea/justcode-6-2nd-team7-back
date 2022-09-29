@@ -4,7 +4,9 @@ const secret = process.env.TOKEN_SECRET;
 
 const validationToken = async (req, res, next) => {
   try {
+    console.log("req확인", req.headers);
     const accessToken = req.headers.authorization;
+    console.log("토큰확인", accessToken);
     const accessToken2 = accessToken.split(" ")[1];
     const decode = await jwt.verify(accessToken2, secret);
     const userId = decode.userId;
