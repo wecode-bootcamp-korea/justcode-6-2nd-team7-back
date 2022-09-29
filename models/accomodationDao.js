@@ -337,7 +337,7 @@ const roomData = async (acno) => {
 	  accomodation_rooms.id AS id,
       accomodation_rooms.name AS type,
       room_availability_checks.remain as remain,
-      accomodation_rooms.original_price AS price
+      accomodation_rooms.sale_price AS price
     FROM accomodations
 
     INNER JOIN
