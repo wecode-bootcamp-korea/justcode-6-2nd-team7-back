@@ -8,7 +8,7 @@ const getReview = async (accomodationId) => {
           reviews.id AS id,
           accomodation_rooms.name AS roomType,
           users.nickname AS nickName,
-          reviews.rating AS rating,
+          round(reviews.rating) AS rating,
           reviews.comment AS comment,
           reviews.img AS img
         FROM reviews
