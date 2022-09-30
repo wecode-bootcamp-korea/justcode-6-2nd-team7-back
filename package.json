@@ -17,8 +17,10 @@
     "typeorm": "^0.3.9"
   },
   "scripts": {
-    "start": "node",
-    "nodemon": "nodemon server.js",
-    "test": "nodemon temp.js"
+    "start": "nodemon server.js",
+    "distribute": "npm i && pm2 del JGUD && pm2 start server.js --name JGUD -i max"
+  },
+  "devDependencies": {
+    "pm2": "^5.2.0"
   }
 }

@@ -26,7 +26,7 @@ const signature = hash.toString(CryptoJS.enc.Base64);
 
 const smsSend = async function (phoneNumber) {
   Cache.del(phoneNumber);
-  const verifyCode = Math.floor(Math.random() * (999999 - 100000)) + 100000;
+  const verifyCode = Math.floor(Math.random() * 900000) + 100000;
   Cache.put(phoneNumber, verifyCode.toString());
 
   const response = await axios({
@@ -53,7 +53,6 @@ const smsSend = async function (phoneNumber) {
     },
   });
   const request = response.data;
-  console.log("data:", request);
   const statusCode = request.statusCode;
 
   if (statusCode !== "202") {
@@ -61,7 +60,6 @@ const smsSend = async function (phoneNumber) {
     err.statusCode = statusCode;
     throw err;
   }
-
   return request;
 };
 
@@ -69,19 +67,17 @@ const verify = async function (phoneNumber, verifyCode) {
   const CacheData = Cache.get(phoneNumber);
 
   if (!CacheData) {
-    console.log("문자인증: 일치하는 코드가 없음");
     const err = new Error("FAILURE_SMS_AUTHENTICATION");
     err.statusCode = 400;
     throw err;
   }
 
   if (CacheData !== verifyCode) {
-    console.log("문자인증: 저장된 코드와 다름");
     const err = new Error("FAILURE_SMS_AUTHENTICATION");
     err.statusCode = 400;
     throw err;
   }
-
+  Cache.del(phoneNumber);
   return CacheData;
 };
 

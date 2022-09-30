@@ -4,12 +4,10 @@ const authDao = require("../models/authDao");
 const axios = require("axios");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const secret = process.env.TOKEN_SECRET;
-const secret = "JGUD";
+const secret = process.env.TOKEN_SECRET;
 
 const userCreated = async (email, password, nickName, phoneNumber) => {
   const userCheck = await authDao.getUserByEmail(email);
-
   if (!userCheck) {
     const salt = bcrypt.genSaltSync(10);
     const hashedPw = bcrypt.hashSync(password, salt);
@@ -19,7 +17,6 @@ const userCreated = async (email, password, nickName, phoneNumber) => {
       nickName,
       phoneNumber
     );
-
     return user;
   } else {
     const user = false;
@@ -29,8 +26,6 @@ const userCreated = async (email, password, nickName, phoneNumber) => {
 
 const userLogin = async (email, password) => {
   const user = await authDao.getUserByEmail(email);
-  console.log("확인1", user);
-  console.log("확인2", secret);
   if (user) {
     const isPasswordCorrect = bcrypt.compareSync(password, user.password);
     const token = jwt.sign({ userId: user.id }, secret);
@@ -46,7 +41,6 @@ const userLogin = async (email, password) => {
 const kakaoToken = async (kakaoCode) => {
   const clientId = process.env.REST_API;
   const redirectUri = process.env.REDIRECT_URI;
-  console.log(redirectUri);
   const result = await axios.post(
     `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${clientId}&redirect_uri=${redirectUri}&code=${kakaoCode}`,
     {
@@ -56,7 +50,6 @@ const kakaoToken = async (kakaoCode) => {
     }
   );
   const accessToken = result.data.access_token;
-
   if (!accessToken) {
     const err = new Error("ACCESS_TOKEN_ERROR");
     err.statusCode = 400;
@@ -71,16 +64,12 @@ const kakaoLogin = async (kakaoToken) => {
       Authorization: `Bearer ${kakaoToken}`,
     },
   });
-
   const nickName = result.data.kakao_account.profile.nickname.replace(
     /a/gi,
     ""
   );
   const email = result.data.kakao_account.email;
   const kakaoId = result.data.id;
-  console.log("카카오에서 가져온 닉네임 =", nickName);
-  console.log("카카오에서 가져온 이메일 =:", email);
-  console.log("카카오에서 가저온 userID =", kakaoId);
 
   if (!(nickName && email && kakaoId)) {
     const err = new Error("KEY_ERROR");

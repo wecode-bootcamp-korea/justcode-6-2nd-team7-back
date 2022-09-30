@@ -4,7 +4,6 @@ const getReview = async (req, res) => {
   try {
     const accomodationId = req.params.accomodationId;
     const getReviewById = await reviewService.getReview(accomodationId);
-
     return res.status(201).json({ comment: getReviewById });
   } catch (err) {
     console.log(err);
